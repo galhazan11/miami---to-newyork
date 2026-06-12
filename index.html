@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>טיול המשפחה: מיאמי ← ניו יורק</title>
+    <title>Family Road Trip: Miami to New York</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -166,7 +166,7 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             border-radius: 15px;
             padding: 25px;
-            border-right: 6px solid #667eea;
+            border-left: 6px solid #667eea;
             transition: all 0.3s ease;
             cursor: pointer;
         }
@@ -174,7 +174,7 @@
         .day-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            border-right-color: #764ba2;
+            border-left-color: #764ba2;
         }
 
         .day-header {
@@ -249,10 +249,44 @@
             margin-bottom: 30px;
         }
 
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .gallery-tab {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-tab:hover,
+        .gallery-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+        }
+
+        .gallery-section {
+            display: none;
+        }
+
+        .gallery-section.active {
+            display: contents;
         }
 
         .gallery-item {
@@ -275,15 +309,55 @@
             object-fit: cover;
         }
 
+        .gallery-item.upload-area {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 3px dashed #667eea;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item.upload-area:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: white;
+        }
+
+        .gallery-item.upload-area i {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .gallery-item.upload-area:hover i {
+            color: white;
+        }
+
+        .gallery-item.upload-area p {
+            color: #667eea;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .gallery-item.upload-area:hover p {
+            color: white;
+        }
+
         .gallery-label {
             position: absolute;
             bottom: 0;
-            right: 0;
             left: 0;
+            right: 0;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
             color: white;
             padding: 15px;
             font-weight: bold;
+        }
+
+        .upload-input {
+            display: none;
         }
 
         footer {
@@ -301,7 +375,7 @@
         .timeline::before {
             content: '';
             position: absolute;
-            right: 0;
+            left: 0;
             top: 0;
             bottom: 0;
             width: 3px;
@@ -339,23 +413,23 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚗 טיול המשפחה: מיאמי → ניו יורק 🗽</h1>
+            <h1>🚗 Family Road Trip: Miami → New York 🗽</h1>
             <div class="trip-info">
                 <div class="info-item">
                     <i class="fas fa-calendar"></i>
-                    <span>10 ימים בדרך</span>
+                    <span>10 Days on the Road</span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-road"></i>
-                    <span>1,530 ק״מ</span>
+                    <span>1,530 km</span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-people"></i>
-                    <span>משפחה בטיול</span>
+                    <span>Family Adventure</span>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-star"></i>
-                    <span>אתיקט מלא</span>
+                    <span>Unforgettable</span>
                 </div>
             </div>
         </header>
@@ -369,330 +443,427 @@
                 <div class="stat-card">
                     <i class="fas fa-clock" style="font-size: 2.5em; color: #667eea;"></i>
                     <div class="stat-number">~22</div>
-                    <div class="stat-label">שעות נסיעה</div>
+                    <div class="stat-label">Hours Driving</div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-sun" style="font-size: 2.5em; color: #764ba2;"></i>
                     <div class="stat-number">10</div>
-                    <div class="stat-label">ימים מדהימים</div>
+                    <div class="stat-label">Amazing Days</div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-hotel" style="font-size: 2.5em; color: #667eea;"></i>
                     <div class="stat-number">9</div>
-                    <div class="stat-label">מלונות</div>
+                    <div class="stat-label">Hotels</div>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-camera" style="font-size: 2.5em; color: #764ba2;"></i>
                     <div class="stat-number">∞</div>
-                    <div class="stat-label">זכרונות</div>
+                    <div class="stat-label">Memories</div>
                 </div>
             </div>
         </div>
 
         <div class="itinerary">
             <div class="itinerary-header">
-                <i class="fas fa-map-marker-alt"></i> תכנית הטיול היומית
+                <i class="fas fa-map-marker-alt"></i> Daily Itinerary
             </div>
 
             <div class="days-grid">
-                <!-- יום 1 -->
+                <!-- Day 1 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">1</div>
-                        <div class="day-title">התחלה מרגשת</div>
+                        <div class="day-title">Exciting Start</div>
                     </div>
-                    <div class="day-location"><i class="fas fa-map-marker"></i> מיאמי, פלורידה</div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Miami, Florida</div>
                     <div class="activity">
                         <i class="fas fa-coffee"></i>
-                        <span><strong>בוקר:</strong> קפה בחוף מיאמי בי"ח עם נוף אוקיינוס מדהים ☕</span>
+                        <span><strong>Morning:</strong> Coffee at Miami Beach with ocean views ☕</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-umbrella-beach"></i>
-                        <span><strong>צהריים:</strong> הליכה בדרום ביץ' - Art Deco district 🎨</span>
+                        <span><strong>Afternoon:</strong> Walk South Beach - Art Deco district 🎨</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-bed"></i>
-                        <span><strong>ערב:</strong> הסתגרות במלון 5 כוכבים עם בריכה 🏨</span>
+                        <span><strong>Evening:</strong> Check into 5-star hotel with pool 🏨</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-utensils"></i>
-                        <span><strong>לילה:</strong> ארוחת שף בחוף - מהלחם הטוב ביותר בעיר 🍽️</span>
+                        <span><strong>Night:</strong> Beachfront chef dinner - the best in town 🍽️</span>
                     </div>
                 </div>
 
-                <!-- יום 2 -->
+                <!-- Day 2 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">2</div>
-                        <div class="day-title">יום ים וכיף</div>
+                        <div class="day-title">Beach & Fun</div>
                     </div>
-                    <div class="day-location"><i class="fas fa-map-marker"></i> מיאמי → West Palm Beach</div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Miami → West Palm Beach</div>
                     <div class="activity">
                         <i class="fas fa-water"></i>
-                        <span><strong>בוקר:</strong> שחייה בים קריאים וחם 🌊</span>
+                        <span><strong>Morning:</strong> Swimming in warm tropical waters 🌊</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-hiking"></i>
-                        <span><strong>צהריים:</strong> טיול בפארק ייחודי עם בע"ח בחופשיות 🦜</span>
+                        <span><strong>Afternoon:</strong> Visit wildlife park - animals in nature 🦜</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-cocktail"></i>
-                        <span><strong>ערב:</strong> קוקטיילים בחוף השקיעה - Sunset bliss 🍹</span>
+                        <span><strong>Evening:</strong> Sunset cocktails - paradise in a glass 🍹</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-moon"></i>
-                        <span><strong>לילה:</strong> ארוחת ערב בריסטורן מקומי 🌙</span>
+                        <span><strong>Night:</strong> Dinner at local beachfront restaurant 🌙</span>
                     </div>
                 </div>
 
-                <!-- יום 3 -->
+                <!-- Day 3 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">3</div>
-                        <div class="day-title">צפון לאס ארטס</div>
+                        <div class="day-title">Historic Charm</div>
                     </div>
-                    <div class="day-location"><i class="fas fa-map-marker"></i> West Palm Beach → St. Augustine</div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> West Palm → St. Augustine</div>
                     <div class="activity">
                         <i class="fas fa-road"></i>
-                        <span><strong>בוקר:</strong> נסיעה צמודה 250 ק״מ דרומה 🚗</span>
+                        <span><strong>Morning:</strong> Drive 250 km north 🚗</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-landmark"></i>
-                        <span><strong>צהריים:</strong> סיור בעיר ההיסטורית הקדומה - St. Augustine 🏰</span>
+                        <span><strong>Afternoon:</strong> Tour oldest city - St. Augustine 🏰</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-tree"></i>
-                        <span><strong>ערב:</strong> טיול בגנים טרופיים מדהימים 🌴</span>
+                        <span><strong>Evening:</strong> Walk through tropical gardens 🌴</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-star"></i>
-                        <span><strong>לילה:</strong> ארוחת מיוחדת בבית קסום עתיק 🌟</span>
+                        <span><strong>Night:</strong> Dinner in historic colonial house 🌟</span>
                     </div>
                 </div>
 
-                <!-- יום 4 -->
+                <!-- Day 4 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">4</div>
-                        <div class="day-title">לב כרוליינה</div>
+                        <div class="day-title">Coastal Beauty</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> St. Augustine → Charleston</div>
                     <div class="activity">
                         <i class="fas fa-church"></i>
-                        <span><strong>בוקר:</strong> בקר בכנסייה היומית - זירת המורשת 🙏</span>
+                        <span><strong>Morning:</strong> Visit historic churches - heritage sites 🙏</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-boat"></i>
-                        <span><strong>צהריים:</strong> שיט בנהר הדרום - ביצים טבעיות 🛥️</span>
+                        <span><strong>Afternoon:</strong> River cruise - natural wetlands 🛥️</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-city"></i>
-                        <span><strong>ערב:</strong> טיול בעיר צ'ארלסטון העתיקה - רחוב ה-Rainbow 🎨</span>
+                        <span><strong>Evening:</strong> Tour Rainbow Row - colorful historic district 🎨</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-glass-cheers"></i>
-                        <span><strong>לילה:</strong> יין וטעימות בגלריה אמנות 🍷</span>
+                        <span><strong>Night:</strong> Wine tasting at art gallery 🍷</span>
                     </div>
                 </div>
 
-                <!-- יום 5 -->
+                <!-- Day 5 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">5</div>
-                        <div class="day-title">דרומה - Savannah</div>
+                        <div class="day-title">Southern Charm</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> Charleston → Savannah</div>
                     <div class="activity">
                         <i class="fas fa-leaf"></i>
-                        <span><strong>בוקר:</strong> טיול בגן Forsyth - טבע במרכז העיר 🌳</span>
+                        <span><strong>Morning:</strong> Walk Forsyth Park - nature in city center 🌳</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-camera"></i>
-                        <span><strong>צהריים:</strong> צילום בנקודות מבט היפות בעיר 📸</span>
+                        <span><strong>Afternoon:</strong> Photography at scenic viewpoints 📸</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-store"></i>
-                        <span><strong>ערב:</strong> קניות בדוקן קדום וגלריות 🛍️</span>
+                        <span><strong>Evening:</strong> Shopping at antique shops & galleries 🛍️</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-music"></i>
-                        <span><strong>לילה:</strong> ערב בג'ז בר עם מוזיקה חיה 🎷</span>
+                        <span><strong>Night:</strong> Live jazz bar - authentic Southern vibes 🎷</span>
                     </div>
                 </div>
 
-                <!-- יום 6 -->
+                <!-- Day 6 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">6</div>
-                        <div class="day-title">צמא לשחקו</div>
+                        <div class="day-title">Beach Paradise</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> Savannah → Myrtle Beach</div>
                     <div class="activity">
                         <i class="fas fa-swimming"></i>
-                        <span><strong>בוקר:</strong> שחייה בחוף וספורט מים 🏄</span>
+                        <span><strong>Morning:</strong> Beach swimming & water sports 🏄</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-gamepad"></i>
-                        <span><strong>צהריים:</strong> פארק בילויים יחסי במרכז העיר 🎡</span>
+                        <span><strong>Afternoon:</strong> Amusement park & boardwalk fun 🎡</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-ice-cream"></i>
-                        <span><strong>ערב:</strong> גלידה וחוף בשקיעה מדהימה 🍦</span>
+                        <span><strong>Evening:</strong> Ice cream & sunset beach walk 🍦</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-fireworks"></i>
-                        <span><strong>לילה:</strong> ערב חופשי עם אש בחוף 🔥</span>
+                        <span><strong>Night:</strong> Bonfire on the beach 🔥</span>
                     </div>
                 </div>
 
-                <!-- יום 7 -->
+                <!-- Day 7 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">7</div>
-                        <div class="day-title">הצפון קורא</div>
+                        <div class="day-title">Capital Discovery</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> Myrtle Beach → Washington DC</div>
                     <div class="activity">
                         <i class="fas fa-monument"></i>
-                        <span><strong>בוקר:</strong> טיול בנצחון Washington - הקפיטול 🏛️</span>
+                        <span><strong>Morning:</strong> Tour the Capitol - American icon 🏛️</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-museum"></i>
-                        <span><strong>צהריים:</strong> מוזיאון סמיתסוניאן - הסיפור של אמריקה 🎭</span>
+                        <span><strong>Afternoon:</strong> Smithsonian Museum - American history 🎭</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-camera"></i>
-                        <span><strong>ערב:</strong> צילום בנצחון לינקולן בלילה ✨</span>
+                        <span><strong>Evening:</strong> Night photography at Lincoln Memorial ✨</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-utensils"></i>
-                        <span><strong>לילה:</strong> ארוחת דוג'ד בג'ורג'טאון המהוללת 🍽️</span>
+                        <span><strong>Night:</strong> Dinner in Georgetown - acclaimed restaurant 🍽️</span>
                     </div>
                 </div>
 
-                <!-- יום 8 -->
+                <!-- Day 8 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">8</div>
-                        <div class="day-title">עטיפת ההיסטוריה</div>
+                        <div class="day-title">Liberty Bell</div>
                     </div>
-                    <div class="day-location"><i class="fas fa-map-marker"></i> Washington DC → Philadelphia</div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> DC → Philadelphia</div>
                     <div class="activity">
                         <i class="fas fa-ring"></i>
-                        <span><strong>בוקר:</strong> בקר בפעמון השחרור - Liberty Bell 🔔</span>
+                        <span><strong>Morning:</strong> Visit Liberty Bell - American independence 🔔</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-scroll"></i>
-                        <span><strong>צהריים:</strong> סיור בנתיב ההעצמאות - עולם ישן 📜</span>
+                        <span><strong>Afternoon:</strong> Walk Independence Hall - historic path 📜</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-paint-brush"></i>
-                        <span><strong>ערב:</strong> ביקור בגלריה אמנות בגטו השנייה 🎨</span>
+                        <span><strong>Evening:</strong> Art gallery visit in historic district 🎨</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-sandwich"></i>
-                        <span><strong>לילה:</strong> צרוף פילדלפיה הידוע - וילי וגבינה 🥪</span>
+                        <span><strong>Night:</strong> Famous Philly cheesesteak dinner 🥪</span>
                     </div>
                 </div>
 
-                <!-- יום 9 -->
+                <!-- Day 9 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">9</div>
-                        <div class="day-title">קרוב לעיר</div>
+                        <div class="day-title">Big Apple Arrival</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> Philadelphia → New York City</div>
                     <div class="activity">
                         <i class="fas fa-skyscraper"></i>
-                        <span><strong>בוקר:</strong> כניסה ל-NYC! Times Square 🌆</span>
+                        <span><strong>Morning:</strong> Welcome to NYC! Times Square 🌆</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-building"></i>
-                        <span><strong>צהריים:</strong> סיור בברודוויי - תיאטרון אלוף עולם 🎭</span>
+                        <span><strong>Afternoon:</strong> Broadway tour - world theater capital 🎭</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-shopping-bag"></i>
-                        <span><strong>ערב:</strong> קניות ברחוב 5 - אדוניות וסגנון 👗</span>
+                        <span><strong>Evening:</strong> Shopping on 5th Avenue - fashion capital 👗</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-crown"></i>
-                        <span><strong>לילה:</strong> ערב של שמפניה בגג עם נוף המנהטן 🥂</span>
+                        <span><strong>Night:</strong> Rooftop champagne with Manhattan views 🥂</span>
                     </div>
                 </div>
 
-                <!-- יום 10 -->
+                <!-- Day 10 -->
                 <div class="day-card">
                     <div class="day-header">
                         <div class="day-number">10</div>
-                        <div class="day-title">יום הגאון!</div>
+                        <div class="day-title">Final Celebration!</div>
                     </div>
                     <div class="day-location"><i class="fas fa-map-marker"></i> New York City 🗽</div>
                     <div class="activity">
                         <i class="fas fa-statue"></i>
-                        <span><strong>בוקר:</strong> Statue of Liberty - סמל החירות 🗽</span>
+                        <span><strong>Morning:</strong> Statue of Liberty - symbol of freedom 🗽</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-gopuram"></i>
-                        <span><strong>צהריים:</strong> Empire State Building - לא בהירות מלוא 🏙️</span>
+                        <span><strong>Afternoon:</strong> Empire State Building - iconic views 🏙️</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-leaf"></i>
-                        <span><strong>ערב:</strong> טיול בסנטרל פארק - הלב הירוק של ניו יורק 🌳</span>
+                        <span><strong>Evening:</strong> Central Park stroll - green heart of NYC 🌳</span>
                     </div>
                     <div class="activity">
                         <i class="fas fa-party-horn"></i>
-                        <span><strong>לילה:</strong> חגיגה סופית - דיו יומי, זכרונות לעד! 🎉</span>
+                        <span><strong>Night:</strong> Grand celebration - memories for a lifetime! 🎉</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="gallery">
-            <h2>📸 גלריית טיול</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop" alt="Miami Beach">
-                    <div class="gallery-label">🌅 חוף מיאמי</div>
+            <h2>📸 Trip Photo Gallery</h2>
+            
+            <div class="gallery-tabs">
+                <div class="gallery-tab active" onclick="showGallery('miami')">Miami</div>
+                <div class="gallery-tab" onclick="showGallery('palm-beach')">W. Palm Beach</div>
+                <div class="gallery-tab" onclick="showGallery('st-augustine')">St. Augustine</div>
+                <div class="gallery-tab" onclick="showGallery('charleston')">Charleston</div>
+                <div class="gallery-tab" onclick="showGallery('savannah')">Savannah</div>
+                <div class="gallery-tab" onclick="showGallery('myrtle-beach')">Myrtle Beach</div>
+                <div class="gallery-tab" onclick="showGallery('dc')">Washington DC</div>
+                <div class="gallery-tab" onclick="showGallery('philadelphia')">Philadelphia</div>
+                <div class="gallery-tab" onclick="showGallery('nyc')">New York City</div>
+            </div>
+
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Miami -->
+                <div class="gallery-section active" id="miami">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('miami-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Miami photos</p>
+                        <input type="file" id="miami-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'miami')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop" alt="Miami Beach">
+                        <div class="gallery-label">🌅 Miami Beach</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop" alt="St Augustine">
-                    <div class="gallery-label">🏰 סנט אוגוסטין</div>
+
+                <!-- West Palm Beach -->
+                <div class="gallery-section" id="palm-beach">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('palm-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload West Palm Beach photos</p>
+                        <input type="file" id="palm-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'palm-beach')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop" alt="West Palm Beach">
+                        <div class="gallery-label">🏖️ West Palm Beach</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?w=400&h=300&fit=crop" alt="Charleston">
-                    <div class="gallery-label">🎨 צ'ארלסטון</div>
+
+                <!-- St. Augustine -->
+                <div class="gallery-section" id="st-augustine">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('st-aug-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload St. Augustine photos</p>
+                        <input type="file" id="st-aug-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'st-augustine')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?w=400&h=300&fit=crop" alt="St. Augustine">
+                        <div class="gallery-label">🏰 St. Augustine</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1520160521640-9b41b2b39140?w=400&h=300&fit=crop" alt="Savannah">
-                    <div class="gallery-label">🌳 סאוואנה</div>
+
+                <!-- Charleston -->
+                <div class="gallery-section" id="charleston">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('charleston-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Charleston photos</p>
+                        <input type="file" id="charleston-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'charleston')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1520156521640-9b41b2b39140?w=400&h=300&fit=crop" alt="Charleston">
+                        <div class="gallery-label">🎨 Charleston</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1520456680360-5cefc6dd3461?w=400&h=300&fit=crop" alt="Myrtle Beach">
-                    <div class="gallery-label">🏄 מרטל ביץ'</div>
+
+                <!-- Savannah -->
+                <div class="gallery-section" id="savannah">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('savannah-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Savannah photos</p>
+                        <input type="file" id="savannah-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'savannah')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1520456680360-5cefc6dd3461?w=400&h=300&fit=crop" alt="Savannah">
+                        <div class="gallery-label">🌳 Savannah</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=400&h=300&fit=crop" alt="Washington DC">
-                    <div class="gallery-label">🏛️ וושינגטון</div>
+
+                <!-- Myrtle Beach -->
+                <div class="gallery-section" id="myrtle-beach">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('myrtle-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Myrtle Beach photos</p>
+                        <input type="file" id="myrtle-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'myrtle-beach')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=400&h=300&fit=crop" alt="Myrtle Beach">
+                        <div class="gallery-label">🏄 Myrtle Beach</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=300&fit=crop" alt="Philadelphia">
-                    <div class="gallery-label">🔔 פילדלפיה</div>
+
+                <!-- Washington DC -->
+                <div class="gallery-section" id="dc">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('dc-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Washington DC photos</p>
+                        <input type="file" id="dc-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'dc')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=300&fit=crop" alt="Washington DC">
+                        <div class="gallery-label">🏛️ Washington DC</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop" alt="NYC">
-                    <div class="gallery-label">🗽 ניו יורק</div>
+
+                <!-- Philadelphia -->
+                <div class="gallery-section" id="philadelphia">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('philly-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload Philadelphia photos</p>
+                        <input type="file" id="philly-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'philadelphia')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop" alt="Philadelphia">
+                        <div class="gallery-label">🔔 Philadelphia</div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="Central Park">
-                    <div class="gallery-label">🌳 סנטרל פארק</div>
+
+                <!-- New York City -->
+                <div class="gallery-section" id="nyc">
+                    <div class="gallery-item upload-area" onclick="document.getElementById('nyc-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload New York City photos</p>
+                        <input type="file" id="nyc-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'nyc')">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="NYC">
+                        <div class="gallery-label">🗽 New York City</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop" alt="Central Park">
+                        <div class="gallery-label">🌳 Central Park</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <footer>
-            <i class="fas fa-heart"></i> טיול מדהים של המשפחה <i class="fas fa-heart"></i>
+            <i class="fas fa-heart"></i> Amazing Family Road Trip <i class="fas fa-heart"></i>
             <br>
-            מיאמי → ניו יורק | 1,530 ק״מ | 10 ימים שלא יישכחו 🚗💨
+            Miami → New York City | 1,530 km | 10 unforgettable days 🚗💨
         </footer>
     </div>
 
@@ -727,7 +898,7 @@
         }).addTo(map);
 
         // Add markers with day labels
-        const dayNames = ['מיאמי', 'W. Palm Beach', 'St. Augustine', 'Charleston', 'Savannah', 'Myrtle Beach', 'Washington DC', 'Philadelphia', 'NYC'];
+        const dayNames = ['Miami', 'W. Palm Beach', 'St. Augustine', 'Charleston', 'Savannah', 'Myrtle Beach', 'Washington DC', 'Philadelphia', 'NYC'];
         
         routeCoordinates.forEach((coord, index) => {
             L.circleMarker(coord, {
@@ -737,11 +908,43 @@
                 weight: 3,
                 opacity: 1,
                 fillOpacity: 0.8
-            }).addTo(map).bindPopup(<strong>יום ${index + 1}</strong><br>${dayNames[index]});
+            }).addTo(map).bindPopup(<strong>Day ${index + 1}</strong><br>${dayNames[index]});
         });
 
         // Fit map to route
         map.fitBounds(L.latLngBounds(routeCoordinates));
+
+        // Gallery functions
+        function showGallery(section) {
+            // Hide all sections
+            document.querySelectorAll('.gallery-section').forEach(el => el.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(section).classList.add('active');
+            
+            // Update tab highlighting
+            document.querySelectorAll('.gallery-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function uploadPhotos(event, destination) {
+            const files = event.target.files;
+            const container = document.getElementById(destination);
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('div');
+                    img.className = 'gallery-item';
+                    img.innerHTML = `
+                        <img src="${e.target.result}" alt="Uploaded photo">
+                        <div class="gallery-label">📸 Memory</div>
+                    `;
+                    container.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
     </script>
 </body>
 </html>

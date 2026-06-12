@@ -3,69 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Miami → New York 10 Day Road Trip</title>
+<title>Miami → New York | A Netflix Travel Story</title>
 
 <style>
 body{
     margin:0;
     font-family: Arial;
-    background:#070b18;
+    background:black;
     color:white;
 }
 
-/* HEADER */
+/* INTRO */
+#intro{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background: radial-gradient(circle,#1a2a6c,#000);
+}
+
+#intro h1{
+    font-size:50px;
+    margin:0;
+}
+
+#intro p{
+    opacity:0.8;
+}
+
+#intro button{
+    margin-top:20px;
+    padding:15px 30px;
+    border:none;
+    border-radius:10px;
+    background:#d4af37;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* MAIN */
+.hidden{display:none;}
+
 header{
     text-align:center;
-    padding:40px;
+    padding:20px;
     background:linear-gradient(135deg,#d4af37,#1a2a6c);
 }
 
-h1{margin:0;font-size:40px;}
-h2{font-weight:300;}
-
-/* MAP */
-.map{
-    padding:20px;
-    text-align:center;
-}
-
-iframe{
-    width:95%;
-    height:350px;
-    border-radius:15px;
-}
-
-/* CAR */
-.road{
-    margin:20px auto;
-    width:95%;
-    height:70px;
-    background:#111;
-    border-radius:10px;
-    position:relative;
-    overflow:hidden;
-}
-
-.car{
-    width:50px;
-    position:absolute;
-    top:10px;
-    left:-60px;
-    animation:drive 6s linear infinite;
-}
-
-@keyframes drive{
-    0%{left:-60px;}
-    100%{left:100%;}
-}
-
-/* DAYS */
-.day{
+/* EPISODE */
+.episode{
     display:none;
     padding:20px;
 }
 
-.day.active{
+.episode.active{
     display:block;
 }
 
@@ -83,9 +76,10 @@ img{
     margin-top:15px;
 }
 
+/* NAV */
 button{
     padding:10px 18px;
-    margin:8px;
+    margin:10px;
     border:none;
     border-radius:8px;
     cursor:pointer;
@@ -93,141 +87,129 @@ button{
 
 .next{background:#d4af37;color:black;font-weight:bold;}
 .back{background:#333;color:white;}
+
+/* NETFLIX LABEL */
+.tag{
+    color:#d4af37;
+    font-size:14px;
+    letter-spacing:2px;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Miami → New York</h1>
-    <h2>10 Day Road Trip 🇺🇸 ~2,100 km</h2>
-</header>
-
-<div class="map">
-    <iframe 
-    src="https://www.google.com/maps?q=Miami%20to%20New%20York&output=embed">
-    </iframe>
-
-    <div class="road">
-        <img class="car" src="https://cdn-icons-png.flaticon.com/512/55/55283.png">
-    </div>
+<!-- INTRO -->
+<div id="intro">
+    <h1>MIAMI → NEW YORK</h1>
+    <p>A Netflix Travel Documentary</p>
+    <button onclick="start()">▶️ Start Watching</button>
 </div>
 
-<!-- DAY 1 -->
-<div class="day active" id="d1">
+<audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3">
+</audio>
+
+<!-- EPISODES -->
+
+<div class="episode active" id="e1">
 <div class="card">
-<h2>Day 1 – Miami 🌴</h2>
-<p>Arrival, hotel, city walk, dinner</p>
+<div class="tag">EPISODE 1</div>
+<h2>Miami Arrival 🌴</h2>
 <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80">
-<button class="next" onclick="go(2)">Next Day →</button>
+<p>Arrival, hotel check-in, city walk, dinner.</p>
+<button class="next" onclick="next(2)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 2 -->
-<div class="day" id="d2">
+<div class="episode" id="e2">
 <div class="card">
-<h2>Day 2 – Miami Beach 🌊</h2>
-<p>Beach, shopping, cocktails, sunset</p>
+<div class="tag">EPISODE 2</div>
+<h2>Miami Beach 🌊</h2>
 <img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2103a?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(1)">← Back</button>
-<button class="next" onclick="go(3)">Next →</button>
+<p>Beach morning, shopping, cocktails, sunset.</p>
+<button class="back" onclick="next(1)">← Back</button>
+<button class="next" onclick="next(3)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 3 -->
-<div class="day" id="d3">
+<div class="episode" id="e3">
 <div class="card">
-<h2>Day 3 – Orlando 🎢</h2>
-<p>Road trip starts, stop in Orlando</p>
+<div class="tag">EPISODE 3</div>
+<h2>The Road Begins 🚗</h2>
 <img src="https://images.unsplash.com/photo-1506973035872-a4f23d7b8a2e?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(2)">← Back</button>
-<button class="next" onclick="go(4)">Next →</button>
+<p>Miami → Orlando. The journey starts.</p>
+<button class="back" onclick="next(2)">← Back</button>
+<button class="next" onclick="next(4)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 4 -->
-<div class="day" id="d4">
+<div class="episode" id="e4">
 <div class="card">
-<h2>Day 4 – Savannah 🏙️</h2>
-<p>Historic town, river walk, food</p>
+<div class="tag">EPISODE 4</div>
+<h2>Deep South 🇺🇸</h2>
 <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(3)">← Back</button>
-<button class="next" onclick="go(5)">Next →</button>
+<p>Savannah → Charleston. Historic America.</p>
+<button class="back" onclick="next(3)">← Back</button>
+<button class="next" onclick="next(5)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 5 -->
-<div class="day" id="d5">
+<div class="episode" id="e5">
 <div class="card">
-<h2>Day 5 – Charleston 🌊</h2>
-<p>Old city vibes, beaches, dinner</p>
-<img src="https://images.unsplash.com/photo-1601758123927-1960b1a6b2b1?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(4)">← Back</button>
-<button class="next" onclick="go(6)">Next →</button>
-</div>
-</div>
-
-<!-- DAY 6 -->
-<div class="day" id="d6">
-<div class="card">
-<h2>Day 6 – Washington DC 🇺🇸</h2>
-<p>Monuments, museums, night walk</p>
+<div class="tag">EPISODE 5</div>
+<h2>Washington DC 🇺🇸</h2>
 <img src="https://images.unsplash.com/photo-1589395937772-fb9f4f6b1f6c?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(5)">← Back</button>
-<button class="next" onclick="go(7)">Next →</button>
+<p>Monuments, museums, night walks.</p>
+<button class="back" onclick="next(4)">← Back</button>
+<button class="next" onclick="next(6)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 7 -->
-<div class="day" id="d7">
+<div class="episode" id="e6">
 <div class="card">
-<h2>Day 7 – Philadelphia 🧀</h2>
-<p>Old city, food tour, vibes</p>
+<div class="tag">EPISODE 6</div>
+<h2>Philadelphia 🧀</h2>
 <img src="https://images.unsplash.com/photo-1600573472590-4014a8f61b72?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(6)">← Back</button>
-<button class="next" onclick="go(8)">Next →</button>
+<p>Food tour, old city vibes.</p>
+<button class="back" onclick="next(5)">← Back</button>
+<button class="next" onclick="next(7)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 8 -->
-<div class="day" id="d8">
+<div class="episode" id="e7">
 <div class="card">
-<h2>Day 8 – New Jersey 🚗</h2>
-<p>Rest stop before NYC</p>
+<div class="tag">EPISODE 7</div>
+<h2>Final Stretch 🚗</h2>
 <img src="https://images.unsplash.com/photo-1605286976176-1c2b2c7f7f3b?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(7)">← Back</button>
-<button class="next" onclick="go(9)">Next →</button>
+<p>New Jersey → NYC approach.</p>
+<button class="back" onclick="next(6)">← Back</button>
+<button class="next" onclick="next(8)">Next Episode →</button>
 </div>
 </div>
 
-<!-- DAY 9 -->
-<div class="day" id="d9">
+<div class="episode" id="e8">
 <div class="card">
-<h2>Day 9 – NYC Arrival 🗽</h2>
-<p>First view of Manhattan</p>
-<img src="https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(8)">← Back</button>
-<button class="next" onclick="go(10)">Final Day →</button>
-</div>
-</div>
-
-<!-- DAY 10 -->
-<div class="day" id="d10">
-<div class="card">
-<h2>Day 10 – New York City 🗽</h2>
-<p>Central Park, Times Square, celebration</p>
+<div class="tag">EPISODE 8</div>
+<h2>NEW YORK CITY 🗽</h2>
 <img src="https://images.unsplash.com/photo-1522083165195-3424ed129620?auto=format&fit=crop&w=1400&q=80">
-<button class="back" onclick="go(9)">← Back</button>
+<p>The journey ends. Central Park, Times Square, celebration.</p>
+<button class="back" onclick="next(7)">← Back</button>
 </div>
 </div>
 
 <script>
 
-function go(n){
-    document.querySelectorAll(".day").forEach(d=>{
-        d.classList.remove("active");
+function start(){
+    document.getElementById("intro").style.display="none";
+    document.getElementById("music").play();
+}
+
+function next(n){
+    document.querySelectorAll(".episode").forEach(e=>{
+        e.classList.remove("active");
     });
-    document.getElementById("d"+n).classList.add("active");
+    document.getElementById("e"+n).classList.add("active");
 }
 
 </script>

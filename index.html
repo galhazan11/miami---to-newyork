@@ -1,218 +1,747 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Miami → New York | A Netflix Travel Story</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טיול המשפחה: מיאמי ← ניו יורק</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body{
-    margin:0;
-    font-family: Arial;
-    background:black;
-    color:white;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-/* INTRO */
-#intro{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    background: radial-gradient(circle,#1a2a6c,#000);
-}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-#intro h1{
-    font-size:50px;
-    margin:0;
-}
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-#intro p{
-    opacity:0.8;
-}
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: slideDown 0.8s ease-out;
+        }
 
-#intro button{
-    margin-top:20px;
-    padding:15px 30px;
-    border:none;
-    border-radius:10px;
-    background:#d4af37;
-    font-size:16px;
-    cursor:pointer;
-}
+        .trip-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
 
-/* MAIN */
-.hidden{display:none;}
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2em;
+            color: #764ba2;
+            font-weight: 600;
+        }
 
-header{
-    text-align:center;
-    padding:20px;
-    background:linear-gradient(135deg,#d4af37,#1a2a6c);
-}
+        .info-item i {
+            font-size: 1.5em;
+        }
 
-/* EPISODE */
-.episode{
-    display:none;
-    padding:20px;
-}
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.episode.active{
-    display:block;
-}
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
 
-.card{
-    max-width:800px;
-    margin:auto;
-    background:#111a2e;
-    padding:20px;
-    border-radius:20px;
-}
+        .map-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            height: 500px;
+        }
 
-img{
-    width:100%;
-    border-radius:15px;
-    margin-top:15px;
-}
+        #map {
+            width: 100%;
+            height: 100%;
+        }
 
-/* NAV */
-button{
-    padding:10px 18px;
-    margin:10px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
-.next{background:#d4af37;color:black;font-weight:bold;}
-.back{background:#333;color:white;}
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-/* NETFLIX LABEL */
-.tag{
-    color:#d4af37;
-    font-size:14px;
-    letter-spacing:2px;
-}
-</style>
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .itinerary {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .itinerary-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .day-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-right: 6px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .day-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-right-color: #764ba2;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .day-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .day-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .day-location {
+            color: #667eea;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .activity i {
+            color: #764ba2;
+            font-size: 1.2em;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .gallery {
+            margin-top: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: 2em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 250px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-label {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            font-size: 1.1em;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .trip-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .days-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <h1>🚗 טיול המשפחה: מיאמי → ניו יורק 🗽</h1>
+            <div class="trip-info">
+                <div class="info-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>10 ימים בדרך</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-road"></i>
+                    <span>1,530 ק״מ</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-people"></i>
+                    <span>משפחה בטיול</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-star"></i>
+                    <span>אתיקט מלא</span>
+                </div>
+            </div>
+        </header>
 
-<!-- INTRO -->
-<div id="intro">
-    <h1>MIAMI → NEW YORK</h1>
-    <p>A Netflix Travel Documentary</p>
-    <button onclick="start()">▶️ Start Watching</button>
-</div>
+        <div class="main-content">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
 
-<audio id="music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3">
-</audio>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-clock" style="font-size: 2.5em; color: #667eea;"></i>
+                    <div class="stat-number">~22</div>
+                    <div class="stat-label">שעות נסיעה</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-sun" style="font-size: 2.5em; color: #764ba2;"></i>
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">ימים מדהימים</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-hotel" style="font-size: 2.5em; color: #667eea;"></i>
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">מלונות</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-camera" style="font-size: 2.5em; color: #764ba2;"></i>
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">זכרונות</div>
+                </div>
+            </div>
+        </div>
 
-<!-- EPISODES -->
+        <div class="itinerary">
+            <div class="itinerary-header">
+                <i class="fas fa-map-marker-alt"></i> תכנית הטיול היומית
+            </div>
 
-<div class="episode active" id="e1">
-<div class="card">
-<div class="tag">EPISODE 1</div>
-<h2>Miami Arrival 🌴</h2>
-<img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80">
-<p>Arrival, hotel check-in, city walk, dinner.</p>
-<button class="next" onclick="next(2)">Next Episode →</button>
-</div>
-</div>
+            <div class="days-grid">
+                <!-- יום 1 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">1</div>
+                        <div class="day-title">התחלה מרגשת</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> מיאמי, פלורידה</div>
+                    <div class="activity">
+                        <i class="fas fa-coffee"></i>
+                        <span><strong>בוקר:</strong> קפה בחוף מיאמי בי"ח עם נוף אוקיינוס מדהים ☕</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span><strong>צהריים:</strong> הליכה בדרום ביץ' - Art Deco district 🎨</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-bed"></i>
+                        <span><strong>ערב:</strong> הסתגרות במלון 5 כוכבים עם בריכה 🏨</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-utensils"></i>
+                        <span><strong>לילה:</strong> ארוחת שף בחוף - מהלחם הטוב ביותר בעיר 🍽️</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e2">
-<div class="card">
-<div class="tag">EPISODE 2</div>
-<h2>Miami Beach 🌊</h2>
-<img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2103a?auto=format&fit=crop&w=1400&q=80">
-<p>Beach morning, shopping, cocktails, sunset.</p>
-<button class="back" onclick="next(1)">← Back</button>
-<button class="next" onclick="next(3)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 2 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">2</div>
+                        <div class="day-title">יום ים וכיף</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> מיאמי → West Palm Beach</div>
+                    <div class="activity">
+                        <i class="fas fa-water"></i>
+                        <span><strong>בוקר:</strong> שחייה בים קריאים וחם 🌊</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-hiking"></i>
+                        <span><strong>צהריים:</strong> טיול בפארק ייחודי עם בע"ח בחופשיות 🦜</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-cocktail"></i>
+                        <span><strong>ערב:</strong> קוקטיילים בחוף השקיעה - Sunset bliss 🍹</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-moon"></i>
+                        <span><strong>לילה:</strong> ארוחת ערב בריסטורן מקומי 🌙</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e3">
-<div class="card">
-<div class="tag">EPISODE 3</div>
-<h2>The Road Begins 🚗</h2>
-<img src="https://images.unsplash.com/photo-1506973035872-a4f23d7b8a2e?auto=format&fit=crop&w=1400&q=80">
-<p>Miami → Orlando. The journey starts.</p>
-<button class="back" onclick="next(2)">← Back</button>
-<button class="next" onclick="next(4)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 3 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">3</div>
+                        <div class="day-title">צפון לאס ארטס</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> West Palm Beach → St. Augustine</div>
+                    <div class="activity">
+                        <i class="fas fa-road"></i>
+                        <span><strong>בוקר:</strong> נסיעה צמודה 250 ק״מ דרומה 🚗</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-landmark"></i>
+                        <span><strong>צהריים:</strong> סיור בעיר ההיסטורית הקדומה - St. Augustine 🏰</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-tree"></i>
+                        <span><strong>ערב:</strong> טיול בגנים טרופיים מדהימים 🌴</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-star"></i>
+                        <span><strong>לילה:</strong> ארוחת מיוחדת בבית קסום עתיק 🌟</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e4">
-<div class="card">
-<div class="tag">EPISODE 4</div>
-<h2>Deep South 🇺🇸</h2>
-<img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=1400&q=80">
-<p>Savannah → Charleston. Historic America.</p>
-<button class="back" onclick="next(3)">← Back</button>
-<button class="next" onclick="next(5)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 4 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">4</div>
+                        <div class="day-title">לב כרוליינה</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> St. Augustine → Charleston</div>
+                    <div class="activity">
+                        <i class="fas fa-church"></i>
+                        <span><strong>בוקר:</strong> בקר בכנסייה היומית - זירת המורשת 🙏</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-boat"></i>
+                        <span><strong>צהריים:</strong> שיט בנהר הדרום - ביצים טבעיות 🛥️</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-city"></i>
+                        <span><strong>ערב:</strong> טיול בעיר צ'ארלסטון העתיקה - רחוב ה-Rainbow 🎨</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-glass-cheers"></i>
+                        <span><strong>לילה:</strong> יין וטעימות בגלריה אמנות 🍷</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e5">
-<div class="card">
-<div class="tag">EPISODE 5</div>
-<h2>Washington DC 🇺🇸</h2>
-<img src="https://images.unsplash.com/photo-1589395937772-fb9f4f6b1f6c?auto=format&fit=crop&w=1400&q=80">
-<p>Monuments, museums, night walks.</p>
-<button class="back" onclick="next(4)">← Back</button>
-<button class="next" onclick="next(6)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 5 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">5</div>
+                        <div class="day-title">דרומה - Savannah</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Charleston → Savannah</div>
+                    <div class="activity">
+                        <i class="fas fa-leaf"></i>
+                        <span><strong>בוקר:</strong> טיול בגן Forsyth - טבע במרכז העיר 🌳</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-camera"></i>
+                        <span><strong>צהריים:</strong> צילום בנקודות מבט היפות בעיר 📸</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-store"></i>
+                        <span><strong>ערב:</strong> קניות בדוקן קדום וגלריות 🛍️</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-music"></i>
+                        <span><strong>לילה:</strong> ערב בג'ז בר עם מוזיקה חיה 🎷</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e6">
-<div class="card">
-<div class="tag">EPISODE 6</div>
-<h2>Philadelphia 🧀</h2>
-<img src="https://images.unsplash.com/photo-1600573472590-4014a8f61b72?auto=format&fit=crop&w=1400&q=80">
-<p>Food tour, old city vibes.</p>
-<button class="back" onclick="next(5)">← Back</button>
-<button class="next" onclick="next(7)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 6 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">6</div>
+                        <div class="day-title">צמא לשחקו</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Savannah → Myrtle Beach</div>
+                    <div class="activity">
+                        <i class="fas fa-swimming"></i>
+                        <span><strong>בוקר:</strong> שחייה בחוף וספורט מים 🏄</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-gamepad"></i>
+                        <span><strong>צהריים:</strong> פארק בילויים יחסי במרכז העיר 🎡</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-ice-cream"></i>
+                        <span><strong>ערב:</strong> גלידה וחוף בשקיעה מדהימה 🍦</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-fireworks"></i>
+                        <span><strong>לילה:</strong> ערב חופשי עם אש בחוף 🔥</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e7">
-<div class="card">
-<div class="tag">EPISODE 7</div>
-<h2>Final Stretch 🚗</h2>
-<img src="https://images.unsplash.com/photo-1605286976176-1c2b2c7f7f3b?auto=format&fit=crop&w=1400&q=80">
-<p>New Jersey → NYC approach.</p>
-<button class="back" onclick="next(6)">← Back</button>
-<button class="next" onclick="next(8)">Next Episode →</button>
-</div>
-</div>
+                <!-- יום 7 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">7</div>
+                        <div class="day-title">הצפון קורא</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Myrtle Beach → Washington DC</div>
+                    <div class="activity">
+                        <i class="fas fa-monument"></i>
+                        <span><strong>בוקר:</strong> טיול בנצחון Washington - הקפיטול 🏛️</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-museum"></i>
+                        <span><strong>צהריים:</strong> מוזיאון סמיתסוניאן - הסיפור של אמריקה 🎭</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-camera"></i>
+                        <span><strong>ערב:</strong> צילום בנצחון לינקולן בלילה ✨</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-utensils"></i>
+                        <span><strong>לילה:</strong> ארוחת דוג'ד בג'ורג'טאון המהוללת 🍽️</span>
+                    </div>
+                </div>
 
-<div class="episode" id="e8">
-<div class="card">
-<div class="tag">EPISODE 8</div>
-<h2>NEW YORK CITY 🗽</h2>
-<img src="https://images.unsplash.com/photo-1522083165195-3424ed129620?auto=format&fit=crop&w=1400&q=80">
-<p>The journey ends. Central Park, Times Square, celebration.</p>
-<button class="back" onclick="next(7)">← Back</button>
-</div>
-</div>
+                <!-- יום 8 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">8</div>
+                        <div class="day-title">עטיפת ההיסטוריה</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Washington DC → Philadelphia</div>
+                    <div class="activity">
+                        <i class="fas fa-ring"></i>
+                        <span><strong>בוקר:</strong> בקר בפעמון השחרור - Liberty Bell 🔔</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-scroll"></i>
+                        <span><strong>צהריים:</strong> סיור בנתיב ההעצמאות - עולם ישן 📜</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-paint-brush"></i>
+                        <span><strong>ערב:</strong> ביקור בגלריה אמנות בגטו השנייה 🎨</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-sandwich"></i>
+                        <span><strong>לילה:</strong> צרוף פילדלפיה הידוע - וילי וגבינה 🥪</span>
+                    </div>
+                </div>
 
-<script>
+                <!-- יום 9 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">9</div>
+                        <div class="day-title">קרוב לעיר</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> Philadelphia → New York City</div>
+                    <div class="activity">
+                        <i class="fas fa-skyscraper"></i>
+                        <span><strong>בוקר:</strong> כניסה ל-NYC! Times Square 🌆</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-building"></i>
+                        <span><strong>צהריים:</strong> סיור בברודוויי - תיאטרון אלוף עולם 🎭</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span><strong>ערב:</strong> קניות ברחוב 5 - אדוניות וסגנון 👗</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-crown"></i>
+                        <span><strong>לילה:</strong> ערב של שמפניה בגג עם נוף המנהטן 🥂</span>
+                    </div>
+                </div>
 
-function start(){
-    document.getElementById("intro").style.display="none";
-    document.getElementById("music").play();
-}
+                <!-- יום 10 -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-number">10</div>
+                        <div class="day-title">יום הגאון!</div>
+                    </div>
+                    <div class="day-location"><i class="fas fa-map-marker"></i> New York City 🗽</div>
+                    <div class="activity">
+                        <i class="fas fa-statue"></i>
+                        <span><strong>בוקר:</strong> Statue of Liberty - סמל החירות 🗽</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-gopuram"></i>
+                        <span><strong>צהריים:</strong> Empire State Building - לא בהירות מלוא 🏙️</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-leaf"></i>
+                        <span><strong>ערב:</strong> טיול בסנטרל פארק - הלב הירוק של ניו יורק 🌳</span>
+                    </div>
+                    <div class="activity">
+                        <i class="fas fa-party-horn"></i>
+                        <span><strong>לילה:</strong> חגיגה סופית - דיו יומי, זכרונות לעד! 🎉</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-function next(n){
-    document.querySelectorAll(".episode").forEach(e=>{
-        e.classList.remove("active");
-    });
-    document.getElementById("e"+n).classList.add("active");
-}
+        <div class="gallery">
+            <h2>📸 גלריית טיול</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop" alt="Miami Beach">
+                    <div class="gallery-label">🌅 חוף מיאמי</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop" alt="St Augustine">
+                    <div class="gallery-label">🏰 סנט אוגוסטין</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?w=400&h=300&fit=crop" alt="Charleston">
+                    <div class="gallery-label">🎨 צ'ארלסטון</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1520160521640-9b41b2b39140?w=400&h=300&fit=crop" alt="Savannah">
+                    <div class="gallery-label">🌳 סאוואנה</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1520456680360-5cefc6dd3461?w=400&h=300&fit=crop" alt="Myrtle Beach">
+                    <div class="gallery-label">🏄 מרטל ביץ'</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=400&h=300&fit=crop" alt="Washington DC">
+                    <div class="gallery-label">🏛️ וושינגטון</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=300&fit=crop" alt="Philadelphia">
+                    <div class="gallery-label">🔔 פילדלפיה</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop" alt="NYC">
+                    <div class="gallery-label">🗽 ניו יורק</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="Central Park">
+                    <div class="gallery-label">🌳 סנטרל פארק</div>
+                </div>
+            </div>
+        </div>
 
-</script>
+        <footer>
+            <i class="fas fa-heart"></i> טיול מדהים של המשפחה <i class="fas fa-heart"></i>
+            <br>
+            מיאמי → ניו יורק | 1,530 ק״מ | 10 ימים שלא יישכחו 🚗💨
+        </footer>
+    </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map with route
+        const map = L.map('map').setView([26.1224, -80.1373], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Route coordinates
+        const routeCoordinates = [
+            [25.7617, -80.1918],    // Miami
+            [26.7153, -80.0534],    // West Palm Beach
+            [29.5403, -81.3108],    // St. Augustine
+            [32.7765, -79.9318],    // Charleston
+            [32.0809, -81.0912],    // Savannah
+            [33.7490, -78.9784],    // Myrtle Beach
+            [38.8951, -77.0369],    // Washington DC
+            [39.9526, -75.1652],    // Philadelphia
+            [40.7128, -74.0060],    // New York City
+        ];
+
+        // Draw route
+        const route = L.polyline(routeCoordinates, {
+            color: '#764ba2',
+            weight: 4,
+            opacity: 0.7,
+            dashArray: '5, 10'
+        }).addTo(map);
+
+        // Add markers with day labels
+        const dayNames = ['מיאמי', 'W. Palm Beach', 'St. Augustine', 'Charleston', 'Savannah', 'Myrtle Beach', 'Washington DC', 'Philadelphia', 'NYC'];
+        
+        routeCoordinates.forEach((coord, index) => {
+            L.circleMarker(coord, {
+                radius: 12,
+                fillColor: index === 0 ? '#22c55e' : index === routeCoordinates.length - 1 ? '#ef4444' : '#667eea',
+                color: '#fff',
+                weight: 3,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map).bindPopup(<strong>יום ${index + 1}</strong><br>${dayNames[index]});
+        });
+
+        // Fit map to route
+        map.fitBounds(L.latLngBounds(routeCoordinates));
+    </script>
 </body>
 </html>

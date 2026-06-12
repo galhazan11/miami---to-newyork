@@ -3,45 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Miami → New York Journey</title>
+<title>Miami → New York Cinematic Trip</title>
 
 <style>
 body{
     margin:0;
     font-family: Arial, sans-serif;
-    background:#0a0f1c;
+    background:black;
     color:white;
     overflow:hidden;
 }
 
-header{
+/* INTRO */
+#intro{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
     text-align:center;
-    padding:40px 20px;
-    background: linear-gradient(135deg, #d4af37, #1a2a6c);
+    background: radial-gradient(circle, #1a2a6c, #000);
 }
 
-h1{margin:0;font-size:36px;}
-h2{font-weight:300;}
+#intro h1{
+    font-size:45px;
+}
 
+#intro button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:#d4af37;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+/* SCREENS */
 .screen{
     display:none;
     height:100vh;
-    padding:40px 20px;
+    padding:30px;
     box-sizing:border-box;
-    text-align:center;
 }
 
-.active{
-    display:block;
-}
+.active{display:block;}
 
 .card{
-    max-width:800px;
+    max-width:900px;
     margin:auto;
     background:#111a2e;
     padding:20px;
     border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    text-align:center;
 }
 
 img{
@@ -50,47 +64,63 @@ img{
     margin-top:15px;
 }
 
+/* NAV */
 button{
-    padding:12px 25px;
+    padding:10px 20px;
     margin:10px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     cursor:pointer;
-    font-size:16px;
 }
 
-.next{
-    background:#d4af37;
-    color:black;
-    font-weight:bold;
+.next{background:#d4af37;}
+.back{background:#333;color:white;}
+
+/* CAR ANIMATION */
+.road{
+    position:relative;
+    height:80px;
+    background:#222;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:20px;
 }
 
-.back{
-    background:#333;
-    color:white;
+.car{
+    width:50px;
+    position:absolute;
+    top:15px;
+    left:-60px;
+    animation: drive 5s linear infinite;
 }
 
-.small{
-    opacity:0.8;
+@keyframes drive{
+    0%{left:-60px;}
+    100%{left:100%;}
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<!-- INTRO -->
+<div id="intro">
     <h1>Miami → New York</h1>
-    <h2>Sukkot 2026 ✈️🚗 Luxury Road Trip</h2>
-</header>
+    <p>A Cinematic Road Trip Experience 🚗✨</p>
+    <button onclick="start()">Start Journey ▶️</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3">
+</audio>
 
 <!-- SCREEN 1 -->
 <div class="screen active" id="s1">
     <div class="card">
-        <h2>Arrival ✈️ Miami</h2>
-        <p class="small">Tel Aviv → Miami</p>
+        <h2>Arrival – Miami ✈️</h2>
         <img src="https://images.unsplash.com/photo-1501621965065-c6e1cf6b53e2?auto=format&fit=crop&w=1200&q=80">
-        <p>We land in Miami and start the journey 🌴</p>
-        <button class="next" onclick="next(2)">Next Day →</button>
+        <button class="next" onclick="next(2)">Next</button>
     </div>
 </div>
 
@@ -99,86 +129,58 @@ button{
     <div class="card">
         <h2>Day 1 – Miami 🌴</h2>
         <img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2103a?auto=format&fit=crop&w=1200&q=80">
-        <p>
-        Coffee by the hotel ☕<br>
-        Relax & hotel check-in 🏨<br>
-        City walk 🌆<br>
-        Shopping 🛍️<br>
-        Fine dining dinner 🍽️
-        </p>
-        <button class="back" onclick="next(1)">← Back</button>
-        <button class="next" onclick="next(3)">Next Day →</button>
+        <button class="back" onclick="next(1)">Back</button>
+        <button class="next" onclick="next(3)">Next</button>
     </div>
 </div>
 
-<!-- SCREEN 3 -->
+<!-- SCREEN 3 MAP -->
 <div class="screen" id="s3">
     <div class="card">
-        <h2>Day 2 – Miami Beach 🌊</h2>
-        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80">
-        <p>
-        Beach morning 🏖️<br>
-        Relax & explore 🌴<br>
-        Cocktails 🍹<br>
-        Shopping 🛍️<br>
-        Dinner & rest 🌙
-        </p>
-        <button class="back" onclick="next(2)">← Back</button>
-        <button class="next" onclick="next(4)">Next Day →</button>
+        <h2>Route Map 🗺️</h2>
+
+        <iframe
+        width="100%"
+        height="350"
+        style="border-radius:15px"
+        src="https://www.google.com/maps?q=Miami%20to%20New%20York&output=embed">
+        </iframe>
+
+        <p>~2,100 km journey across the USA 🇺🇸</p>
+
+        <div class="road">
+            <img class="car" src="https://cdn-icons-png.flaticon.com/512/55/55283.png">
+        </div>
+
+        <button class="back" onclick="next(2)">Back</button>
+        <button class="next" onclick="next(4)">Next</button>
     </div>
 </div>
 
-<!-- SCREEN 4 -->
+<!-- SCREEN 4 FINAL -->
 <div class="screen" id="s4">
-    <div class="card">
-        <h2>Day 3 – Road Trip Begins 🚗</h2>
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80">
-        <p>
-        Miami → Orlando 🚗<br>
-        Road vibes 🎶<br>
-        Stop & explore 🎡<br>
-        Dinner & sleep 🏨
-        </p>
-        <button class="back" onclick="next(3)">← Back</button>
-        <button class="next" onclick="next(5)">Next Day →</button>
-    </div>
-</div>
-
-<!-- SCREEN 5 -->
-<div class="screen" id="s5">
-    <div class="card">
-        <h2>Day 4 → 10 🇺🇸</h2>
-        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80">
-        <p>
-        Savannah 🏙️ → Charleston 🌊 → Washington DC 🇺🇸 → Philadelphia 🧀 → New York 🗽<br><br>
-        Scenic drives 🚗<br>
-        Food stops 🍔<br>
-        City exploring 🌆<br>
-        </p>
-        <button class="back" onclick="next(4)">← Back</button>
-        <button class="next" onclick="next(6)">Final →</button>
-    </div>
-</div>
-
-<!-- SCREEN 6 -->
-<div class="screen" id="s6">
     <div class="card">
         <h2>New York City 🗽</h2>
         <img src="https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=1200&q=80">
-        <p>
-        We made it ❤️<br>
-        Miami → NYC Road Trip completed 🚗<br>
-        Memories for life ✨
-        </p>
-        <button class="back" onclick="next(5)">← Back</button>
+
+        <p>We made it ❤️</p>
+
+        <button class="back" onclick="next(3)">Back</button>
     </div>
 </div>
 
 <script>
+
+function start(){
+    document.getElementById("intro").style.display="none";
+    document.getElementById("music").play();
+}
+
 function next(n){
     document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
     document.getElementById("s"+n).classList.add("active");
 }
+
 </script>
 
 </body>

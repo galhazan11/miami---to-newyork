@@ -30,20 +30,45 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 40px;
+            padding: 0;
             margin-bottom: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            overflow: hidden;
+        }
+
+        .header-image-container {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .header-map {
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.8);
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
         }
 
         h1 {
             font-size: 3.5em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
             animation: slideDown 0.8s ease-out;
+            z-index: 10;
         }
 
         .trip-info {
@@ -52,6 +77,7 @@
             gap: 50px;
             margin-top: 20px;
             flex-wrap: wrap;
+            z-index: 10;
         }
 
         .info-item {
@@ -59,12 +85,19 @@
             align-items: center;
             gap: 10px;
             font-size: 1.2em;
-            color: #764ba2;
+            color: white;
             font-weight: 600;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
         }
 
         .info-item i {
             font-size: 1.5em;
+        }
+
+        .header-content {
+            padding: 30px;
+            text-align: center;
+            background: white;
         }
 
         @keyframes slideDown {
@@ -360,34 +393,73 @@
             display: none;
         }
 
+        .delete-photo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+
+        .gallery-item:hover .delete-photo {
+            opacity: 1;
+        }
+
+        .fun-facts {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .fun-facts h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .fact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .fact-card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .fact-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
         footer {
             text-align: center;
             color: white;
             padding: 30px;
             font-size: 1.1em;
-        }
-
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -407,30 +479,45 @@
             .gallery-grid {
                 grid-template-columns: 1fr;
             }
+
+            .header-image-container {
+                height: 250px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🚗 Family Road Trip: Miami → New York 🗽</h1>
-            <div class="trip-info">
-                <div class="info-item">
-                    <i class="fas fa-calendar"></i>
-                    <span>10 Days on the Road</span>
+            <div class="header-image-container">
+                <div id="header-map" class="header-map"></div>
+                <div class="header-overlay">
+                    <h1>🚗 Family Road Trip: Miami → New York 🗽</h1>
+                    <div class="trip-info">
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>10 Days on the Road</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-road"></i>
+                            <span>1,530 km</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-people"></i>
+                            <span>Family Adventure</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star"></i>
+                            <span>Unforgettable</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <i class="fas fa-road"></i>
-                    <span>1,530 km</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-people"></i>
-                    <span>Family Adventure</span>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-star"></i>
-                    <span>Unforgettable</span>
-                </div>
+            </div>
+            <div class="header-content">
+                <p style="font-size: 1.1em; color: #666; line-height: 1.6;">
+                    Embark on an amazing journey with family from the vibrant beaches of Miami to the iconic skyscrapers of New York City. 
+                    Experience diverse cultures, historic landmarks, and create memories that will last a lifetime!
+                </p>
             </div>
         </header>
 
@@ -721,8 +808,44 @@
             </div>
         </div>
 
+        <div class="fun-facts">
+            <h3>🎉 Fun Facts & Highlights</h3>
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <i class="fas fa-sun"></i>
+                    <h4>Tropical Paradise</h4>
+                    <p>Miami has the most sunny days in the US - perfect for beach adventures!</p>
+                </div>
+                <div class="fact-card">
+                    <i class="fas fa-landmark"></i>
+                    <h4>Historic Route</h4>
+                    <p>St. Augustine is the oldest continuously occupied European settlement in the US!</p>
+                </div>
+                <div class="fact-card">
+                    <i class="fas fa-music"></i>
+                    <h4>Jazz Capital</h4>
+                    <p>Savannah's jazz scene is world-famous - catch live music in historic venues!</p>
+                </div>
+                <div class="fact-card">
+                    <i class="fas fa-building"></i>
+                    <h4>American Icons</h4>
+                    <p>Visit Washington DC's monuments - completely FREE admission for museums!</p>
+                </div>
+                <div class="fact-card">
+                    <i class="fas fa-liberty"></i>
+                    <h4>Lady Liberty</h4>
+                    <p>The Statue of Liberty has been welcoming visitors since 1886!</p>
+                </div>
+                <div class="fact-card">
+                    <i class="fas fa-theater-masks"></i>
+                    <h4>Broadway Magic</h4>
+                    <p>New York's Broadway has over 40 theatres with world-class productions!</p>
+                </div>
+            </div>
+        </div>
+
         <div class="gallery">
-            <h2>📸 Trip Photo Gallery</h2>
+            <h2>📸 Trip Photo Gallery - Upload Your Memories!</h2>
             
             <div class="gallery-tabs">
                 <div class="gallery-tab active" onclick="showGallery('miami')">Miami</div>
@@ -742,7 +865,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('miami-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Miami photos</p>
-                        <input type="file" id="miami-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'miami')">
+                        <input type="file" id="miami-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'miami')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=300&fit=crop" alt="Miami Beach">
@@ -755,7 +878,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('palm-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload West Palm Beach photos</p>
-                        <input type="file" id="palm-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'palm-beach')">
+                        <input type="file" id="palm-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'palm-beach')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop" alt="West Palm Beach">
@@ -768,7 +891,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('st-aug-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload St. Augustine photos</p>
-                        <input type="file" id="st-aug-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'st-augustine')">
+                        <input type="file" id="st-aug-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'st-augustine')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?w=400&h=300&fit=crop" alt="St. Augustine">
@@ -781,7 +904,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('charleston-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Charleston photos</p>
-                        <input type="file" id="charleston-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'charleston')">
+                        <input type="file" id="charleston-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'charleston')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1520156521640-9b41b2b39140?w=400&h=300&fit=crop" alt="Charleston">
@@ -794,7 +917,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('savannah-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Savannah photos</p>
-                        <input type="file" id="savannah-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'savannah')">
+                        <input type="file" id="savannah-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'savannah')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1520456680360-5cefc6dd3461?w=400&h=300&fit=crop" alt="Savannah">
@@ -807,7 +930,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('myrtle-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Myrtle Beach photos</p>
-                        <input type="file" id="myrtle-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'myrtle-beach')">
+                        <input type="file" id="myrtle-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'myrtle-beach')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?w=400&h=300&fit=crop" alt="Myrtle Beach">
@@ -820,7 +943,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('dc-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Washington DC photos</p>
-                        <input type="file" id="dc-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'dc')">
+                        <input type="file" id="dc-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'dc')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=300&fit=crop" alt="Washington DC">
@@ -833,7 +956,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('philly-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload Philadelphia photos</p>
-                        <input type="file" id="philly-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'philadelphia')">
+                        <input type="file" id="philly-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'philadelphia')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=400&h=300&fit=crop" alt="Philadelphia">
@@ -846,7 +969,7 @@
                     <div class="gallery-item upload-area" onclick="document.getElementById('nyc-upload').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <p>Click to upload New York City photos</p>
-                        <input type="file" id="nyc-upload" class="upload-input" multiple onchange="uploadPhotos(event, 'nyc')">
+                        <input type="file" id="nyc-upload" class="upload-input" multiple accept="image/*" onchange="uploadPhotos(event, 'nyc')">
                     </div>
                     <div class="gallery-item">
                         <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" alt="NYC">
@@ -864,17 +987,19 @@
             <i class="fas fa-heart"></i> Amazing Family Road Trip <i class="fas fa-heart"></i>
             <br>
             Miami → New York City | 1,530 km | 10 unforgettable days 🚗💨
+            <br><br>
+            <small>Created with love for your journey ✨</small>
         </footer>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialize map with route
-        const map = L.map('map').setView([26.1224, -80.1373], 5);
+        // Initialize header map with route
+        const headerMap = L.map('header-map').setView([31.5, -78.0], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19,
-        }).addTo(map);
+        }).addTo(headerMap);
 
         // Route coordinates
         const routeCoordinates = [
@@ -889,8 +1014,26 @@
             [40.7128, -74.0060],    // New York City
         ];
 
-        // Draw route
+        // Draw route on header map
         const route = L.polyline(routeCoordinates, {
+            color: '#ffd89b',
+            weight: 3,
+            opacity: 0.9,
+            dashArray: '5, 10'
+        }).addTo(headerMap);
+
+        // Fit header map to route
+        headerMap.fitBounds(L.latLngBounds(routeCoordinates));
+
+        // Initialize main map with route
+        const map = L.map('map').setView([31.5, -78.0], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Draw route on main map
+        const mainRoute = L.polyline(routeCoordinates, {
             color: '#764ba2',
             weight: 4,
             opacity: 0.7,
@@ -934,13 +1077,29 @@
             for (let file of files) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = document.createElement('div');
-                    img.className = 'gallery-item';
-                    img.innerHTML = `
-                        <img src="${e.target.result}" alt="Uploaded photo">
-                        <div class="gallery-label">📸 Memory</div>
-                    `;
-                    container.appendChild(img);
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'gallery-item';
+                    imgWrapper.style.position = 'relative';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Uploaded photo';
+                    
+                    const label = document.createElement('div');
+                    label.className = 'gallery-label';
+                    label.textContent = '📸 Your Memory';
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-photo';
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                    deleteBtn.onclick = function() {
+                        imgWrapper.remove();
+                    };
+                    
+                    imgWrapper.appendChild(img);
+                    imgWrapper.appendChild(label);
+                    imgWrapper.appendChild(deleteBtn);
+                    container.appendChild(imgWrapper);
                 };
                 reader.readAsDataURL(file);
             }

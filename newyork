@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miami to New York Trip 2026</title>
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0b1f3a;
+    color:white;
+}
+header{
+    text-align:center;
+    padding:60px 20px;
+    background: linear-gradient(135deg, #ff512f, #1e90ff);
+}
+h1{
+    font-size:40px;
+    margin:0;
+}
+h2{
+    margin-top:10px;
+    font-weight:300;
+}
+.section{
+    padding:40px 20px;
+    max-width:1000px;
+    margin:auto;
+}
+.card{
+    background:#132a4a;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+img{
+    width:100%;
+    border-radius:15px;
+    margin-top:10px;
+}
+.day-title{
+    color:#ffcc70;
+    font-size:22px;
+}
+.small{
+    opacity:0.8;
+}
+</style>
+</head>
+<body>
+<header>
+    <h1>Miami → New York Road Trip</h1>
+    <h2>Sukkot 2026 ✈️🚗</h2>
+</header>
+<div class="section">
+<div class="card">
+    <div class="day-title">Flight Day ✈️</div>
+    <p class="small">Tel Aviv → Miami</p>
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000">
+    <p>We land in Miami and begin our adventure 🌴</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 1 - Miami Arrival 🌴</div>
+    <p>• Coffee near the hotel<br>
+    • Rest at the hotel<br>
+    • Walk around the city<br>
+    • Shopping<br>
+    • Fancy dinner at a top restaurant</p>
+    <img src="https://images.unsplash.com/photo-1506966953602-c20cc11f75e3?w=1000">
+</div>
+<div class="card">
+    <div class="day-title">Day 2 - Miami Chill Day 🌊</div>
+    <p>• Beach morning<br>
+    • City exploring<br>
+    • Cocktails in the afternoon<br>
+    • Shopping<br>
+    • Dinner & rest before the road trip</p>
+    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1000">
+</div>
+<div class="card">
+    <div class="day-title">Day 3 - Start the Road Trip 🚗</div>
+    <p>Miami → Orlando</p>
+    <p>• Start driving north<br>
+    • Stop in Orlando<br>
+    • Dinner & sleep</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 4 - Savannah 🏙️</div>
+    <p>• Drive to Savannah<br>
+    • Old town walk<br>
+    • Riverfront dinner</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 5 - Charleston 🌊</div>
+    <p>• Historic streets<br>
+    • Beach sunset<br>
+    • Southern food night</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 6 - Outer Banks 🏖️</div>
+    <p>• Coastal drive<br>
+    • Lighthouse visit<br>
+    • Relaxing day</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 7 - Washington D.C. 🇺🇸</div>
+    <p>• White House area<br>
+    • Museums<br>
+    • Night walk in the city</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 8 - Philadelphia 🧀</div>
+    <p>• Old city tour<br>
+    • Cheesesteak stop<br>
+    • Evening drive</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 9 - New Jersey Stop 🚗</div>
+    <p>• Chill day near NYC<br>
+    • Rest before arrival</p>
+</div>
+<div class="card">
+    <div class="day-title">Day 10 - New York City 🗽</div>
+    <p>• Times Square<br>
+    • Central Park<br>
+    • Shopping & celebration</p>
+</div>
+<div class="card">
+    <div class="day-title">Final Surprise 🎉</div>
+    <p>We made it from Miami to New York together ❤️</p>
+    <p>Best trip ever.</p>
+    <img src="https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=1000">
+</div>
+</div>
+</body>
+</html>

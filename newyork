@@ -3,137 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Miami to New York Trip 2026</title>
+<title>Miami → New York Journey 2026</title>
+
 <style>
 body{
     margin:0;
     font-family: Arial, sans-serif;
     background:#0b1f3a;
     color:white;
-}
-header{
     text-align:center;
-    padding:60px 20px;
+}
+
+header{
+    padding:50px 20px;
     background: linear-gradient(135deg, #ff512f, #1e90ff);
 }
-h1{
-    font-size:40px;
-    margin:0;
+
+h1{margin:0;font-size:40px;}
+h2{font-weight:300;}
+
+button{
+    padding:15px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:20px;
 }
-h2{
-    margin-top:10px;
-    font-weight:300;
+
+.start{
+    background:#ffcc00;
+    color:black;
+    font-weight:bold;
 }
+
 .section{
-    padding:40px 20px;
+    padding:30px 15px;
     max-width:1000px;
     margin:auto;
 }
+
 .card{
     background:#132a4a;
+    margin:20px 0;
     padding:20px;
     border-radius:15px;
-    margin-bottom:20px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
+
 img{
     width:100%;
     border-radius:15px;
     margin-top:10px;
 }
-.day-title{
-    color:#ffcc70;
-    font-size:22px;
+
+.map-container{
+    margin-top:20px;
 }
-.small{
-    opacity:0.8;
+
+.car{
+    width:50px;
+    position:absolute;
+    top:10px;
+    left:0;
+    animation: drive 6s linear infinite;
+}
+
+@keyframes drive{
+    0%{left:0;}
+    100%{left:90%;}
+}
+
+.hidden{
+    display:none;
 }
 </style>
 </head>
+
 <body>
+
 <header>
     <h1>Miami → New York Road Trip</h1>
     <h2>Sukkot 2026 ✈️🚗</h2>
+
+    <button class="start" onclick="startJourney()">Start Journey</button>
 </header>
-<div class="section">
+
+<audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+</audio>
+
+<div class="section hidden" id="content">
+
 <div class="card">
-    <div class="day-title">Flight Day ✈️</div>
-    <p class="small">Tel Aviv → Miami</p>
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1000">
-    <p>We land in Miami and begin our adventure 🌴</p>
+    <h2>Total Distance</h2>
+    <p>Approx. <b>2,100 km</b> (about 1,300 miles)</p>
 </div>
+
 <div class="card">
-    <div class="day-title">Day 1 - Miami Arrival 🌴</div>
-    <p>• Coffee near the hotel<br>
-    • Rest at the hotel<br>
-    • Walk around the city<br>
-    • Shopping<br>
-    • Fancy dinner at a top restaurant</p>
+    <h2>Route Map 🗺️</h2>
+    <div class="map-container">
+        <iframe
+        width="100%"
+        height="400"
+        style="border-radius:15px"
+        loading="lazy"
+        src="https://www.google.com/maps/embed/v1/directions?key=YOUR_API_KEY&origin=Miami,FL&destination=New+York,NY&waypoints=Orlando,FL|Savannah,GA|Charleston,SC|Washington,DC|Philadelphia,PA">
+        </iframe>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Miami 🌴</h2>
     <img src="https://images.unsplash.com/photo-1506966953602-c20cc11f75e3?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 2 - Miami Chill Day 🌊</div>
-    <p>• Beach morning<br>
-    • City exploring<br>
-    • Cocktails in the afternoon<br>
-    • Shopping<br>
-    • Dinner & rest before the road trip</p>
-    <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1000">
+    <h2>Orlando 🎢</h2>
+    <img src="https://images.unsplash.com/photo-1506973035872-a4f23d7b8a2e?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 3 - Start the Road Trip 🚗</div>
-    <p>Miami → Orlando</p>
-    <p>• Start driving north<br>
-    • Stop in Orlando<br>
-    • Dinner & sleep</p>
+    <h2>Savannah 🏙️</h2>
+    <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 4 - Savannah 🏙️</div>
-    <p>• Drive to Savannah<br>
-    • Old town walk<br>
-    • Riverfront dinner</p>
+    <h2>Washington DC 🇺🇸</h2>
+    <img src="https://images.unsplash.com/photo-1589395937772-fb9f4f6b1f6c?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 5 - Charleston 🌊</div>
-    <p>• Historic streets<br>
-    • Beach sunset<br>
-    • Southern food night</p>
+    <h2>Philadelphia 🧀</h2>
+    <img src="https://images.unsplash.com/photo-1601758123927-1960b1a6b2b1?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 6 - Outer Banks 🏖️</div>
-    <p>• Coastal drive<br>
-    • Lighthouse visit<br>
-    • Relaxing day</p>
+    <h2>New York City 🗽</h2>
+    <img src="https://images.unsplash.com/photo-1546436836-07a91091f160?w=1000">
 </div>
+
 <div class="card">
-    <div class="day-title">Day 7 - Washington D.C. 🇺🇸</div>
-    <p>• White House area<br>
-    • Museums<br>
-    • Night walk in the city</p>
+    <h2>Road Animation 🚗</h2>
+    <p>Our journey is in motion...</p>
+
+    <div style="position:relative;height:60px;background:#0f2a4d;border-radius:10px;overflow:hidden;">
+        <img class="car" src="https://cdn-icons-png.flaticon.com/512/55/55283.png">
+    </div>
 </div>
-<div class="card">
-    <div class="day-title">Day 8 - Philadelphia 🧀</div>
-    <p>• Old city tour<br>
-    • Cheesesteak stop<br>
-    • Evening drive</p>
+
 </div>
-<div class="card">
-    <div class="day-title">Day 9 - New Jersey Stop 🚗</div>
-    <p>• Chill day near NYC<br>
-    • Rest before arrival</p>
-</div>
-<div class="card">
-    <div class="day-title">Day 10 - New York City 🗽</div>
-    <p>• Times Square<br>
-    • Central Park<br>
-    • Shopping & celebration</p>
-</div>
-<div class="card">
-    <div class="day-title">Final Surprise 🎉</div>
-    <p>We made it from Miami to New York together ❤️</p>
-    <p>Best trip ever.</p>
-    <img src="https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=1000">
-</div>
-</div>
+
+<script>
+
+function startJourney(){
+    document.getElementById("content").classList.remove("hidden");
+
+    const music = document.getElementById("music");
+    music.play();
+}
+
+</script>
+
 </body>
 </html>
